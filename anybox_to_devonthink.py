@@ -17,6 +17,7 @@ processed_file_path = sys.argv[1]
 Bookmark_group_uuid = os.getenv('Bookmark_database_uuid')
 # Anybox API Key in settings
 api_key = os.getenv('Anybox_API_Key')
+HOME_DIR = os.path.expanduser("~")
 
 show_full_urls = os.getenv('show_full_urls') == '1'
 show_dates = os.getenv('show_dates') == '1'
@@ -131,7 +132,7 @@ def get_links():
       result = []
       for link in list:
         icon_url = 'http://127.0.0.1:6391/images/' + link['id'] + '/icon'
-        #icon_relative_url = './Link Icons/' + link['id']
+        icon_relative_url = './Link Icons/' + link['id']
         #download_file(icon_url, icon_relative_url)
         url = link['url']
         title = link['title']
@@ -187,18 +188,18 @@ def add_to_devonthink(item):
     title = item['title']
     url = item['arg'][0]
     uuid = item['arg'][1]
-    document_folder = f"~/Library/Containers/cc.anybox.Anybox/Data/Library/Caches/Documents/{uuid}"
-   # print(document_folder)
+    document_folder = HOME_DIR + f"/Library/Containers/cc.anybox.Anybox/Data/Library/Caches/Documents/{uuid}"
+    #print(document_folder)
     # check if there is any file other than the icon in the folder ~/Library/Containers/cc.anybox.Anybox/Data/Library/Caches/Documents/uuid
     if os.path.exists(document_folder):
         files = os.listdir(document_folder)
         if len(files) > 0:
             for file in files:
-                if file != 'favicon.png':
+                if file != 'favicon.png' and file != 'favicon.ico':
                     # copy the file to folder '~/Library/Application Support/DEVONthink 3/Inbox'
                     # tag the file with Anybox then import the file to DEVONthink
                     subprocess.run(["tag", "-a", "Anybox", f"{document_folder}/{file}"], check=True)
-                    subprocess.run(["cp", "-r", f"{document_folder}/{file}", "~/Library/Application Support/DEVONthink 3/Inbox"], check=True)
+                    subprocess.run(['cp', '-r', f"{document_folder}/{file}", HOME_DIR + "/Library/Application Support/DEVONthink 3/Inbox"], check=True)
                     
     tags = item['tags']
     description = item['description']
