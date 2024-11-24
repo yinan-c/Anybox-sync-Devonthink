@@ -10,7 +10,7 @@ import pytz
 app = Flask(__name__)
 
 HOARDER_API_KEY = os.getenv('HOARDER_API_KEY')
-HOARDER_SERVER_ADDR = os.getenv('HOARDER_SERVER_ADDR', 'http://localhost:8080')
+HOARDER_SERVER_ADDR = os.getenv('HOARDER_SERVER_ADDR', 'http://localhost:3000')
 
 def get_bookmarks():
     url = f"{HOARDER_SERVER_ADDR}/api/v1/bookmarks"

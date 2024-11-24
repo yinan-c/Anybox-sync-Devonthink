@@ -38,14 +38,13 @@ def send_to_hoarder(item):
         'Authorization': f'Bearer {HOARDER_API_KEY}'
     }
 
-    # 构建 tags 字符串
     tags = [tag['name'] for tag in item.get('tags', [])]
-    tags.append('from_anybox')  # 添加来源标签
+    tags.append('from_anybox')
     
     payload = {
         "url": item['url'],
         "title": item['title'],
-        "type": "link",  # 添加 type 字段
+        "type": "link",
         "archived": False,
         "favourited": False,
         "note": item.get('description', ''),
@@ -107,7 +106,7 @@ def monitor_and_sync():
             
         except Exception as e:
             print(f"Error in sync loop: {e}")
-            time.sleep(60)  # 发生错误时等待1分钟后重试
+            time.sleep(60)
 
 if __name__ == "__main__":
     monitor_and_sync()

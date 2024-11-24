@@ -65,6 +65,5 @@ def rss():
     return Response(rssfeed, mimetype='application/rss+xml')
 
 if __name__ == '__main__':
-    # 运行服务器在5033端口，监听所有网络接口
     app.run(host='0.0.0.0', port=5033)
 
